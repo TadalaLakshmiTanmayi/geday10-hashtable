@@ -43,8 +43,30 @@ class HashTable {
 
         return 0;
     }
+    public void remove(String key) {
+        key = key.replaceAll("[^a-zA-Z]", "").toLowerCase();
+        int index = getBucketIndex(key);
+        MyMapNode head = buckets[index];
+        MyMapNode prev = null;
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                if (prev == null) {
+                    buckets[index] = head.next;
+                } else {
+                    prev.next = head.next;
+                }
+                System.out.println("Removed word: " + key);
+                return;
+            }
+            prev = head;
+            head = head.next;
+        }
+        System.out.println("Word not found: " + key);
+    }
 
     public void printHashTable() {
+        System.out.println("Word Frequencies in the Paragraph:");
         for (int i = 0; i < capacity; i++) {
             MyMapNode head = buckets[i];
             while (head != null) {
